@@ -28,8 +28,7 @@ class BooksController < ApplicationController
 
     respond_to do |format|
       if @book.save
-        format.html { redirect_to @book, notice: 'Book was successfully created.' }
-        format.json { render :show, status: :created, location: @book }
+        on_book_saved 'Book was successfully created.'
       else
         format.html { render :new }
         format.json { render json: @book.errors, status: :unprocessable_entity }
@@ -42,8 +41,7 @@ class BooksController < ApplicationController
   def update
     respond_to do |format|
       if @book.update(book_params)
-        format.html { redirect_to @book, notice: 'Book was successfully updated.' }
-        format.json { render :show, status: :ok, location: @book }
+        on_book_saved 'Book was successfully updated.'
       else
         format.html { render :edit }
         format.json { render json: @book.errors, status: :unprocessable_entity }
@@ -71,4 +69,10 @@ class BooksController < ApplicationController
     def book_params
       params.require(:book).permit(:title, :author, :description, :amazon_id)
     end
+
+    private
+      def on_book_saved(message)
+        format.html { redirect_to @book, notice: message }
+        format.json { render :show, status: :created, location: @book }
+      end
 end
