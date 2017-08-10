@@ -70,9 +70,8 @@ class BooksController < ApplicationController
       params.require(:book).permit(:title, :author, :description, :amazon_id)
     end
 
-    private
-      def on_book_saved(message)
-        format.html { redirect_to @book, notice: message }
-        format.json { render :show, status: :created, location: @book }
-      end
+    def on_book_saved(message)
+      format.html { redirect_to @book, notice: message }
+      format.json { render :show, status: :created, location: @book }
+    end
 end
